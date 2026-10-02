@@ -29,6 +29,9 @@ A request that hits the CDN never reaches Next.js or Redis at all.
 | `web/src/app/products/[id]` | Product page (ISR, 300 s safety timer) |
 | `web/src/app/products/page/[page]` | Listing pages (ISR, 60 s timer) |
 | `web/src/app/admin/products/[id]` | Edit form; the server action expires the tags and purges the CDN |
+| `web/src/app/page.tsx` | Home page: explains the caching layers (static) |
+| `web/src/components/` | UI (Tailwind v4): header, product cards, pagination, "Cache info" panel |
+| `web/src/lib/ui.ts` | Category colours/emoji and the pagination window |
 | `web/src/proxy.ts` | Adds the `xkey` header (the page's tags) for the CDN |
 | `web/src/lib/cdn.ts` | Purges the CDN by tag |
 | `web/cache-handler.js` | Shared ISR cache in Redis |

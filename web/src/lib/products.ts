@@ -64,14 +64,18 @@ export function getListingPage(page: number) {
   )();
 }
 
-export const getTotalPages = unstable_cache(
-  async () => {
+export const getProductCount = unstable_cache(
+  async (): Promise<number> => {
     const { rows } = await pool.query("SELECT count(*)::int AS n FROM products");
-    return Math.max(1, Math.ceil(rows[0].n / PAGE_SIZE));
+    return rows[0].n;
   },
-  ["total-pages"],
+  ["product-count"],
   { tags: [tags.listing] },
 );
+
+export async function getTotalPages() {
+  return Math.max(1, Math.ceil((await getProductCount()) / PAGE_SIZE));
+}
 
 // ---------- Helpers ----------
 

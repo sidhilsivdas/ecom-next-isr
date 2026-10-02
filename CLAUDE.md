@@ -71,6 +71,14 @@ The database seed runs only when the `pgdata` volume is empty (`docker compose d
 - **Verify behaviour by running it** (tools/ scripts, logs, headers), and report measured numbers.
 - Match the existing style: short comments that explain *why*, readable log prefixes
   (`[cache]`, `[build]`, `[edit]`, `[cdn]`).
+- **UI:** Tailwind v4 (theme tokens in `src/app/globals.css`, brand colour `brand-*`), system
+  fonts only (no `next/font/google`: builds must not need the internet). Shared components in
+  `src/components/`. Anything that must change per visitor or over time (e.g. "rendered 2 min
+  ago") is a small client component, so cached HTML stays identical for everyone.
+- `tools/check.sh` reads `data-price`, `data-rendered-at` and `data-rendered-by` attributes from
+  the pages; keep them when changing markup.
+- After `next build`, confirm product and listing routes still show `●` (ISR) and the home page
+  `○`. A route turning `ƒ` (dynamic) means caching broke.
 
 ## Gotchas found while building (don't rediscover these)
 
@@ -150,3 +158,7 @@ Planned design:
   Redis Insight, readable cache logs, and the tools/ scripts.
 - **2026-10-03** Published to https://github.com/sidhilsivdas/ecom-next-isr (public, `main`).
   GitHub CLI installed and signed in as sidhilsivdas; `git push` works without extra login.
+- **2026-10-03** New Tailwind UI: home page explaining the layers, product cards with category
+  gradients, numbered pagination, product detail layout, styled admin form with pending state,
+  and a "Cache info" panel (render time, container, tags, live "x min ago"). Fixed the listing
+  total (was pages × 24). Checked with headless Edge screenshots at 1280 px and 520 px.

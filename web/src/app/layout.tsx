@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import { SiteFooter } from "@/components/SiteFooter";
+import { SiteHeader } from "@/components/SiteHeader";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ISR Shop",
+  title: { default: "ISR Shop", template: "%s · ISR Shop" },
   description: "Learning Incremental Static Regeneration with 50,000 products",
 };
 
@@ -10,8 +12,12 @@ export const metadata: Metadata = {
 // make Docker builds depend on internet access.
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className="h-full antialiased">
-      <body className="min-h-full flex flex-col font-sans">{children}</body>
+    <html lang="en" className="h-full">
+      <body className="flex min-h-full flex-col font-sans">
+        <SiteHeader />
+        <div className="flex-1">{children}</div>
+        <SiteFooter />
+      </body>
     </html>
   );
 }
